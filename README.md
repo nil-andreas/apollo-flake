@@ -2,7 +2,7 @@
 Nix flake for https://github.com/ClassicOldSong/Apollo.
 
 ## Disclaimer
-This is the first flake I'm building. It is not complete. Following the Usage section you should be able to get Apollo up and running with default settings (currently using the sunshine command).
+This is the first flake I'm building. It might not be complete. Following the Usage section you should be able to get Apollo up and running.
 
 ## Usage
 To include the flake, follow the instructions [Using nix flakes with NixOS](https://nixos.wiki/wiki/flakes#Using_nix_flakes_with_NixOS). After including the flake I added this to my modules in flake.nix:
