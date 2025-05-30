@@ -12,6 +12,7 @@
     flake-utils,
     ...
   } @ inputs:
+
     flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {
@@ -23,6 +24,7 @@
           cudaSupport ? pkgs.config.cudaSupport or false,
           cudaPackages ? pkgs.cudaPackages,
         }: let
+
           stdenv' =
             if cudaSupport
             then cudaPackages.backendStdenv
@@ -232,6 +234,7 @@
             pkgs.gdb
           ];
         };
+        nixosModules.default = ./apollo-module.nix;
       }
     );
 }
