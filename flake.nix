@@ -16,7 +16,7 @@
       system: let
         pkgs = import nixpkgs {
           inherit system;
-          config = {allowUnfree = true; };
+          config = {allowUnfree = true;};
         };
 
         sunshinePackage = {
@@ -110,7 +110,7 @@
                   if pkgs.lib?libappindicator
                   then pkgs.libappindicator
                   else pkgs.libappindicator-gtk3
-                ) # common variations
+                )
                 pkgs.libnotify
                 pkgs.miniupnpc
                 pkgs.nlohmann_json
@@ -153,7 +153,7 @@
               BUILD_VERSION = "${version}";
               BRANCH = "master";
               COMMIT = "";
-            }; # Matches the env block from your provided default.nix
+            };
 
             postPatch = ''
               substituteInPlace cmake/packaging/linux.cmake \
@@ -232,14 +232,6 @@
             pkgs.gdb
           ];
         };
-
-        # Example of how you might expose the passthru items if they existed
-        # and you had './test.nix' or './updater.sh' in your repo root:
-        #
-        # checks.apollo = pkgs.callPackage ./test.nix {
-        #   inherit (self.packages.${system}) sunshine; # Pass the built package to the test
-        # };
-        # apps.updateScript = flake-utils.lib.mkApp { drv = pkgs.writeShellScriptBin "updater" (builtins.readFile ./updater.sh); };
       }
     );
 }
