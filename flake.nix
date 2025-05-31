@@ -12,19 +12,37 @@
     flake-utils,
     ...
   } @ inputs:
-
     flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {
           inherit system;
           config = {allowUnfree = true;};
         };
+        # Pre-fetch the boost dependency to circumvent the problem with boost188 package.
+        # This relies on CmakeLists FetchContent
+        boostVersion = "1.88.0";
+        boostCMakeTarballURL = "https://github.com/boostorg/boost/releases/download/boost-${boostVersion}/boost-${boostVersion}-cmake.tar.xz";
+
+        boostFetchedTarball = pkgs.fetchurl {
+          url = boostCMakeTarballURL;
+          hash = "sha256-9ItIOQOAz7lKYphyNG46gTcNxJiJbxYBmt5yercusew=";
+        };
+
+        boostExtractedSrc =
+          pkgs.runCommand "boost-${boostVersion}-cmake-src" {
+            src = boostFetchedTarball;
+            nativeBuildInputs = [pkgs.gnutar pkgs.xz];
+          } ''
+            mkdir -p $out
+            # Extract and strip the top-level directory (e.g., "boost-1.88.0-cmake/")
+            # so $out contains the contents of that directory (CMakeLists.txt, libs/, etc.)
+            tar -xf $src --strip-components=1 -C $out
+          '';
 
         sunshinePackage = {
           cudaSupport ? pkgs.config.cudaSupport or false,
           cudaPackages ? pkgs.cudaPackages,
         }: let
-
           stdenv' =
             if cudaSupport
             then cudaPackages.backendStdenv
@@ -32,21 +50,22 @@
         in
           stdenv'.mkDerivation rec {
             pname = "sunshine";
-            version = "0.3.5-alpha.5";
+            version = "local-dev";
+            src = /home/andreas/git/Apollo;
 
-            src = pkgs.fetchFromGitHub {
-              owner = "ClassicOldSong";
-              repo = "Apollo";
-              tag = "v${version}";
-              hash = "sha256-DyNaEcVdDo3imX4nnh8bvNQUtDQjPiF6COaIaqu3eps=";
-              fetchSubmodules = true;
-            };
+            # src = pkgs.fetchFromGitHub {
+            #   owner = "ClassicOldSong";
+            #   repo = "Apollo";
+            #   tag = "v${version}";
+            #   hash = "sha256-+pbX4gFsli0c0XsCDe+KB5aYGJiZ1xaWGCuMb7FzMpg=";
+            #   fetchSubmodules = true;
+            # };
 
             # build webui
             ui = pkgs.buildNpmPackage {
               inherit src version;
               pname = "apollo-ui";
-              npmDepsHash = "sha256-Iy6UoEWmze35ydMUg5kLtctxpxMLnPBNJWrJN1b6tLw=";
+              npmDepsHash = "sha256-e0TwmkkWnyoUbdzoGvB4nUQR/128QD90b0A3MDEPBAQ=";
 
               postPatch = ''
                 cp ${./package-lock.json} ./package-lock.json
@@ -86,7 +105,6 @@
                 pkgs.xorg.libXi
                 pkgs.openssl
                 pkgs.libopus
-                pkgs.boost
                 pkgs.libdrm
                 pkgs.wayland
                 pkgs.libffi
@@ -107,6 +125,8 @@
                 pkgs.numactl
                 pkgs.libgbm
                 pkgs.amf-headers
+                pkgs.sysprof
+                pkgs.glib
                 pkgs.svt-av1
                 (
                   if pkgs.lib?libappindicator
@@ -145,6 +165,7 @@
                 (pkgs.lib.cmakeFeature "SUNSHINE_PUBLISHER_NAME" "nixpkgs")
                 (pkgs.lib.cmakeFeature "SUNSHINE_PUBLISHER_WEBSITE" "https://nixos.org")
                 (pkgs.lib.cmakeFeature "SUNSHINE_PUBLISHER_ISSUE_URL" "https://github.com/NixOS/nixpkgs/issues")
+                "-DFETCHCONTENT_SOURCE_DIR_BOOST=${boostExtractedSrc}"
               ]
               ++ pkgs.lib.optionals (!cudaSupport) [
                 (pkgs.lib.cmakeBool "SUNSHINE_ENABLE_CUDA" false)
