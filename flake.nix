@@ -50,16 +50,14 @@
         in
           stdenv'.mkDerivation rec {
             pname = "sunshine";
-            version = "local-dev";
-            src = /home/andreas/git/Apollo;
-
-            # src = pkgs.fetchFromGitHub {
-            #   owner = "ClassicOldSong";
-            #   repo = "Apollo";
-            #   tag = "v${version}";
-            #   hash = "sha256-+pbX4gFsli0c0XsCDe+KB5aYGJiZ1xaWGCuMb7FzMpg=";
-            #   fetchSubmodules = true;
-            # };
+            version = "master";
+             src = pkgs.fetchFromGitHub {
+               owner = "ClassicOldSong";
+               repo = "Apollo";
+               rev = "d5042e4277e223c8acd05652ace5399ae2ebde48";
+               hash = "sha256-qmqyDtbig6Yc22ofJGZJHsNOYxfx0ZgOWsPYrTUCqYY=";
+               fetchSubmodules = true;
+             };
 
             # build webui
             ui = pkgs.buildNpmPackage {
