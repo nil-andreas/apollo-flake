@@ -54,7 +54,7 @@
              src = pkgs.fetchFromGitHub {
                owner = "ClassicOldSong";
                repo = "Apollo";
-               rev = "d5042e4277e223c8acd05652ace5399ae2ebde48";
+               rev = "0cd32abaaa141d262477d039ac447b38fe99c394";
                hash = "sha256-qmqyDtbig6Yc22ofJGZJHsNOYxfx0ZgOWsPYrTUCqYY=";
                fetchSubmodules = true;
              };
@@ -138,9 +138,6 @@
               ++ pkgs.lib.optionals cudaSupport [
                 cudaPackages.cudatoolkit
                 cudaPackages.cuda_cudart
-              ]
-              ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [
-                pkgs.intel-media-sdk
               ];
 
             runtimeDependencies = [
@@ -225,7 +222,7 @@
               homepage = "https://github.com/ClassicOldSong/Apollo";
               license = licenses.gpl3Only;
               mainProgram = "sunshine";
-              maintainers = with maintainers; [anil9];
+              maintainers = with maintainers; [nil-andreas];
               platforms = platforms.linux;
             };
           };
