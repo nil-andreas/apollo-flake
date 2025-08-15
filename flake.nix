@@ -55,7 +55,7 @@
                owner = "ClassicOldSong";
                repo = "Apollo";
                rev = "0cd32abaaa141d262477d039ac447b38fe99c394";
-               hash = "sha256-qmqyDtbig6Yc22ofJGZJHsNOYxfx0ZgOWsPYrTUCqYY=";
+               hash = "sha256-bjQdGo7JttWnrp7Z7BeU20A7y4YqIURtIzC146mr7go=";
                fetchSubmodules = true;
              };
 
