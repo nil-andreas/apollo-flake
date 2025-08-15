@@ -181,7 +181,7 @@
               substituteInPlace cmake/targets/common.cmake \
                 --replace-fail 'find_program(NPM npm REQUIRED)' ""
 
-              substituteInPlace packaging/linux/sunshine.desktop \
+              substituteInPlace packaging/linux/dev.lizardbyte.app.Sunshine.desktop \
                 --subst-var-by PROJECT_NAME 'Sunshine' \
                 --subst-var-by PROJECT_DESCRIPTION 'Self-hosted game stream host for Moonlight' \
                 --subst-var-by SUNSHINE_DESKTOP_ICON 'sunshine' \
@@ -214,7 +214,7 @@
             '';
 
             postInstall = ''
-              install -Dm644 ../packaging/linux/${pname}.desktop $out/share/applications/${pname}.desktop
+              install -Dm644 ../packaging/linux/dev.lizardbyte.app.Sunshine.desktop $out/share/applications/${pname}.desktop
             '';
 
             meta = with pkgs.lib; {
