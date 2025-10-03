@@ -54,8 +54,8 @@
              src = pkgs.fetchFromGitHub {
                owner = "ClassicOldSong";
                repo = "Apollo";
-               rev = "0cd32abaaa141d262477d039ac447b38fe99c394";
-               hash = "sha256-bjQdGo7JttWnrp7Z7BeU20A7y4YqIURtIzC146mr7go=";
+               rev = "5af771d29e986e3604cf74b51ac81cba5b0bd3ee";
+               hash = "sha256-PWlXoYa6B7yVRwhS32uG51ktG11pifgzgVspchR/W1I=";
                fetchSubmodules = true;
              };
 
@@ -63,7 +63,7 @@
             ui = pkgs.buildNpmPackage {
               inherit src version;
               pname = "apollo-ui";
-              npmDepsHash = "sha256-IulgywOguQU7oKJXLLBP4A8YnPRqaC0MhFBujJeItYo=";
+              npmDepsHash = "sha256-OM3LB8SUX5C5tnyb00amFtfePoLrRumLpAl05Ur9Rz4=";
 
               postPatch = ''
                 cp ${./package-lock.json} ./package-lock.json
