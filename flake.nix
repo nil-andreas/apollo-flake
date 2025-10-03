@@ -55,7 +55,7 @@
                owner = "ClassicOldSong";
                repo = "Apollo";
                rev = "0cd32abaaa141d262477d039ac447b38fe99c394";
-               hash = "sha256-qmqyDtbig6Yc22ofJGZJHsNOYxfx0ZgOWsPYrTUCqYY=";
+               hash = "sha256-bjQdGo7JttWnrp7Z7BeU20A7y4YqIURtIzC146mr7go=";
                fetchSubmodules = true;
              };
 
@@ -63,7 +63,7 @@
             ui = pkgs.buildNpmPackage {
               inherit src version;
               pname = "apollo-ui";
-              npmDepsHash = "sha256-e0TwmkkWnyoUbdzoGvB4nUQR/128QD90b0A3MDEPBAQ=";
+              npmDepsHash = "sha256-IulgywOguQU7oKJXLLBP4A8YnPRqaC0MhFBujJeItYo=";
 
               postPatch = ''
                 cp ${./package-lock.json} ./package-lock.json
@@ -181,7 +181,7 @@
               substituteInPlace cmake/targets/common.cmake \
                 --replace-fail 'find_program(NPM npm REQUIRED)' ""
 
-              substituteInPlace packaging/linux/sunshine.desktop \
+              substituteInPlace packaging/linux/dev.lizardbyte.app.Sunshine.desktop \
                 --subst-var-by PROJECT_NAME 'Sunshine' \
                 --subst-var-by PROJECT_DESCRIPTION 'Self-hosted game stream host for Moonlight' \
                 --subst-var-by SUNSHINE_DESKTOP_ICON 'sunshine' \
@@ -214,7 +214,7 @@
             '';
 
             postInstall = ''
-              install -Dm644 ../packaging/linux/${pname}.desktop $out/share/applications/${pname}.desktop
+              install -Dm644 ../packaging/linux/dev.lizardbyte.app.Sunshine.desktop $out/share/applications/${pname}.desktop
             '';
 
             meta = with pkgs.lib; {
